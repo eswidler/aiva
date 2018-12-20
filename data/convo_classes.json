@@ -38,10 +38,32 @@
       "Who created you?",
       "Who is your creator?"
     ],
+
     "responses": [
       "I'm created by kengz",
       "kengz created me"
     ],
+    "weighted_keywords": []
+  },
+  "knowledge": {
+    "queries": [],
+    "variable_queries": [
+      "Do you know [dobj]?"
+    ],
+    "possible_responses" : {
+      "knowledge": {
+        "dependencies": ["dobj"],
+        "responses": [
+          "Yes, I do know [dobj]"
+        ]
+      },
+      "default": {
+        "responses": [
+          "No, I'm not aware of [dobj]"
+        ]
+      }
+    },
+    "responses": [],
     "weighted_keywords": []
   },
   "exception": {

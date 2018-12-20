@@ -22,7 +22,29 @@ module.exports = (robot) => {
       if (convo.topic === 'exception') {
         return
       }
-      res.send(convo.response)
+
+      // If the conversation has multiple possible responses, promise to resolve the responses.
+      var resolution_promise = new Promise(function(resolve, reject) {
+        if (convo.possible_responses) {
+          global.client.pass({
+            input: convo,
+            to: 'resolve_responses.js',
+            intent: 'resolve_responses',
+          }).then((reply) => {
+            resolve(reply.output)
+          }).catch(function(err) {
+            global.log.error(err)
+            reject()
+          })
+        }
+        else {
+          resolve()
+        }
+      })
+
+      resolution_promise.then(function(resolution_result) {
+         res.send(resolution_result || convo.response || 'Still resolving possible responses.')
+      })
     }).catch(global.log.error)
   })
 

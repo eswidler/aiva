@@ -22,13 +22,19 @@ module.exports = (robot) => {
   robot.respond(/.*/, (res) => {
     let text = res.match[0]
     text = _.trim(_.replace(text, robot.name, ''))
-    if (_.includes(text, 'nlp') || _.includes(text, 'clear kb')) {
+
+    if (
+      _.includes(text, 'nlp')
+      || _.includes(text, 'clear kb')
+      || _.includes(text, '?')
+    ) {
       return
     }
+
     cgkb.add(text)
       .then(() => {
         global.log.info('Knowledge saved to brain')
-      })
+      }).catch(global.log.error)
     if (_.includes(text, 'flight')) {
       res.send('Your wish is my command')
     }
